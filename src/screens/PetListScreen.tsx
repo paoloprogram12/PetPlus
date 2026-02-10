@@ -28,6 +28,7 @@ import {
   StyleSheet, // Creates a stylesheet object for styling (like CSS but as JS objects).
   Alert, // Shows a native popup dialog (e.g. "Are you sure you want to delete?").
   ListRenderItemInfo, // TypeScript type: describes the shape of each item passed to renderItem.
+  Pressable,
 } from "react-native";
 
 // Ionicons: Icon library — gives us icons like paw, trash, plus, etc.
@@ -54,7 +55,7 @@ import { Pet, loadPets, savePets } from "../store/PetStore";
 // This tells TypeScript: "navigation.navigate() can only go to 'PetList' or 'AddPet'."
 type PetStackParamList = {
   PetList: undefined;
-  AddPet: undefined;
+  AddPet: { pet: Pet } | undefined; // can receive a pet OR nothing;
 };
 
 // ============================================================
@@ -70,6 +71,9 @@ export default function PetListScreen() {
   //   2. A function to update it (setPets)
   // When setPets is called, React re-renders the screen with the new data.
   const [pets, setPets] = useState<Pet[]>([]); // Start with an empty array
+
+  // for menu dropdown (...)
+  const [menuOpenId, setMenuOpenId] = useState<string | null>(null);
 
   // Get the navigation object so we can navigate to the AddPet screen.
   // The <NativeStackNavigationProp<PetStackParamList>> part is TypeScript
@@ -133,10 +137,23 @@ export default function PetListScreen() {
           </Text>
         </View>
 
-        {/* Right side: delete button (trash icon) */}
-        <TouchableOpacity onPress={() => handleDelete(item)}>
+        {/* Right side: ••• menu button */}
+        <TouchableOpacity onPress={() => setMenuOpenId(menuOpenId === item.id ? null : item.id)}>
           <Ionicons name="ellipsis-horizontal" size={24} color="#333" />
         </TouchableOpacity>
+
+        {/* Dropdown menu — only shows when this pet's menu is open */}
+        {menuOpenId === item.id && (
+          <View style={styles.dropdown}>
+            <TouchableOpacity onPress={() => { navigation.navigate("AddPet", { pet: item }); setMenuOpenId(null); }}>
+              <Text>Edit</Text>
+            </TouchableOpacity>
+            <View style={{ height: 1, backgroundColor: "#e0e0e0" }} />
+            <TouchableOpacity onPress={() => { handleDelete(item); setMenuOpenId(null); }}>
+              <Text style={{ color: "#ff3b30" }}>Delete</Text>
+            </TouchableOpacity>
+          </View>
+        )}
       </View>
     );
   }
@@ -145,7 +162,7 @@ export default function PetListScreen() {
   // SCREEN LAYOUT (what the user sees)
   // ============================================================
   return (
-    <View style={styles.container}>
+    <Pressable style={styles.container} onPress={() => setMenuOpenId(null)}>
       {/* Conditional rendering: show empty state OR the pet list.
           The ternary operator (condition ? A : B) means:
           "if pets is empty, show A; otherwise, show B" */}
@@ -178,7 +195,7 @@ export default function PetListScreen() {
       >
         <Ionicons name="add" size={32} color="#fff" />
       </TouchableOpacity>
-    </View>
+    </Pressable>
   );
 }
 
@@ -245,4 +262,19 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 0, height: 4 },
     elevation: 4,
   },
+
+  dropdown: {
+    position: "absolute",
+    right: 0,
+    top: 40,
+    backgroundColor: "#fff",
+    borderRadius: 8,
+    padding: 16,
+    gap: 12,
+    minWidth: 120,
+    shadowColor: "#000",
+    shadowOpacity: 0.1,
+    shadowRadius: 8,
+    elevation: 4,
+  }
 });

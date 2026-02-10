@@ -27,10 +27,15 @@ import {
 } from "react-native";
 
 // useNavigation: Gives us navigation.goBack() to return to the previous screen.
-import { useNavigation } from "@react-navigation/native";
+import { useNavigation, useRoute, RouteProp } from "@react-navigation/native";
 
 // Data functions from our store
-import { loadPets, savePets, createPet, PET_TYPES } from "../store/PetStore";
+import { loadPets, savePets, createPet, PET_TYPES, Pet } from "../store/PetStore";
+
+
+type AddPetParams = {
+  AddPet: { pet: Pet } | undefined;
+};
 
 // ============================================================
 // AddPetScreen Component
@@ -39,15 +44,19 @@ export default function AddPetScreen() {
   // --- Navigation ---
   // We use this to call navigation.goBack() after saving the pet.
   const navigation = useNavigation();
+  // gathers info from the current screen
+  const route = useRoute<RouteProp<AddPetParams, "AddPet">>();
+  // grabs the pet that was sent
+  const editPet = route.params?.pet;
 
   // --- Form State ---
   // Each piece of form data is stored in its own useState.
   // When the user types or taps, we update the state,
   // and React automatically re-renders the screen.
 
-  const [name, setName] = useState<string>(""); // Pet name — starts empty
-  const [type, setType] = useState<string>("Dog"); // Pet type — defaults to "Dog"
-  const [age, setAge] = useState<string>("1"); // Age as a STRING because TextInput works with strings
+  const [name, setName] = useState<string>(editPet?.name ?? ""); // Pet name — starts empty
+  const [type, setType] = useState<string>(editPet?.type ?? "Dog"); // Pet type — defaults to "Dog"
+  const [age, setAge] = useState<string>(editPet? String(editPet.age) : "1"); // Age as a STRING because TextInput works with strings
 
   // --- Save Handler ---
   // Called when the user taps the "Save Pet" button.
@@ -60,13 +69,16 @@ export default function AddPetScreen() {
     // Step 1: Load the current pets array from storage
     const pets = await loadPets();
 
-    // Step 2: Create a new pet object with a unique ID
-    // parseInt(age) converts the string "3" to the number 3.
-    // "|| 0" is a fallback — if parseInt fails (e.g. user typed "abc"), use 0.
-    const newPet = createPet(name.trim(), type, parseInt(age) || 0);
+    if (editPet) {
+      const index = pets.findIndex((p) => p.id === editPet.id);
+      if (index !== -1) {
+        pets[index] = { ...pets[index], name: name.trim(), type, age: parseInt(age) || 0 };
+      }
+    } else {
+      const newPet = createPet(name.trim(), type, parseInt(age) || 0);
+      pets.push(newPet);
+    }
 
-    // Step 3: Add the new pet to the array
-    pets.push(newPet);
 
     // Step 4: Save the updated array back to storage
     await savePets(pets);
@@ -74,6 +86,8 @@ export default function AddPetScreen() {
     // Step 5: Go back to the pet list screen.
     // The PetListScreen will reload pets via useFocusEffect and show the new pet.
     navigation.goBack();
+
+
   }
 
   // ============================================================
