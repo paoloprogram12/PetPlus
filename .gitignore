@@ -1,15 +1,12 @@
-# Xcode user-specific files
-xcuserdata/
-*.xcscmblueprint
-*.xccheckout
-
-# Build artifacts
-DerivedData/
-build/
-
-# macOS
+node_modules/
+.expo/
+dist/
+npm-debug.*
+*.jks
+*.p8
+*.p12
+*.key
+*.mobileprovision
+*.orig.*
+web-build/
 .DS_Store
-
-# Swift Package Manager
-.build/
-.swiftpm/
