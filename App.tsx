@@ -128,7 +128,7 @@ export default function App() {
 
           // tabBarActiveTintColor: The color of the icon/text when a tab
           // is selected. "#007aff" is Apple's standard blue color.
-          tabBarActiveTintColor: "#007aff",
+          tabBarActiveTintColor: "#ffaa00",
         })}
       >
         {/* TAB 1: "Pets" — Uses PetStackScreen (which contains PetList + AddPet).

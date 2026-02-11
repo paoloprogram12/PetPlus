@@ -230,8 +230,8 @@ const styles = StyleSheet.create({
 
   // Type chip when selected — blue background
   typeChipSelected: {
-    backgroundColor: "#007aff",
-    borderColor: "#007aff",
+    backgroundColor: "#ffaa00",
+    borderColor: "#ffaa00",
   },
 
   // Text inside chips
@@ -250,7 +250,7 @@ const styles = StyleSheet.create({
     width: 44,
     height: 44,
     borderRadius: 22, // Perfect circle
-    backgroundColor: "#007aff",
+    backgroundColor: "#ffaa00",
     justifyContent: "center",
     alignItems: "center",
   },
@@ -270,7 +270,7 @@ const styles = StyleSheet.create({
 
   // Save button — full-width blue button
   saveButton: {
-    backgroundColor: "#007aff",
+    backgroundColor: "#ffaa00",
     padding: 16,
     borderRadius: 12,
     alignItems: "center", // Center the text

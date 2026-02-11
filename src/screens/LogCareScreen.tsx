@@ -245,8 +245,8 @@ const styles = StyleSheet.create({
 
   // Pet selector chip (selected) — blue
   chipSelected: {
-    backgroundColor: "#007aff",
-    borderColor: "#007aff",
+    backgroundColor: "#ffaa00",
+    borderColor: "#ffaa00",
   },
 
   chipText: { fontSize: 14, color: "#333" },
@@ -266,8 +266,8 @@ const styles = StyleSheet.create({
   },
 
   careChipSelected: {
-    backgroundColor: "#007aff",
-    borderColor: "#007aff",
+    backgroundColor: "#ffaa00",
+    borderColor: "#ffaa00",
   },
 
   careChipText: { fontSize: 14, color: "#333" },
@@ -285,7 +285,7 @@ const styles = StyleSheet.create({
 
   // Log Care button
   logButton: {
-    backgroundColor: "#007aff",
+    backgroundColor: "#ffaa00",
     padding: 16,
     borderRadius: 12,
     alignItems: "center",

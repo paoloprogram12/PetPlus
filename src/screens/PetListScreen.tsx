@@ -252,11 +252,11 @@ const styles = StyleSheet.create({
     width: 56,
     height: 56,
     borderRadius: 28, // Half of width/height = perfect circle
-    backgroundColor: "#007aff", // Apple blue
+    backgroundColor: "#ffaa00", // Apple blue
     justifyContent: "center", // Center the "+" icon vertically
     alignItems: "center", // Center the "+" icon horizontally
     // Blue shadow under the button for depth effect
-    shadowColor: "#007aff",
+    shadowColor: "#cc8800",
     shadowOpacity: 0.3,
     shadowRadius: 8,
     shadowOffset: { width: 0, height: 4 },

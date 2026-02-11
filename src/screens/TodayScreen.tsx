@@ -174,7 +174,7 @@ export default function TodayScreen() {
         <Ionicons
           name={getCareIcon(item.careType) as keyof typeof Ionicons.glyphMap}
           size={22}
-          color="#007aff"
+          color="#ffaa00"
         />
       </View>
     );
