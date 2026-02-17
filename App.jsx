@@ -1,5 +1,5 @@
 // ============================================================
-// App.tsx — The entry point of the entire PetPlus application.
+// App.jsx — The entry point of the entire PetPlus application.
 // This file sets up navigation (how users move between screens).
 // Think of it as the "skeleton" that holds all screens together.
 // ============================================================
@@ -38,15 +38,6 @@ import AddPetScreen from "./src/screens/AddPetScreen"; // Form to add a new pet
 import LogCareScreen from "./src/screens/LogCareScreen"; // Log feeding/walk/medication
 import TodayScreen from "./src/screens/TodayScreen"; // Shows today's tasks
 
-// --- TypeScript Type ---
-// This defines which screens exist in the Pet stack and what
-// data (parameters) they accept. "undefined" means the screen
-// doesn't require any data to be passed to it.
-type PetStackParamList = {
-  PetList: undefined; // No params needed to show the pet list
-  AddPet: undefined; // No params needed to show the add pet form
-};
-
 // --- Navigator Instances ---
 // These create the actual navigator objects we use below.
 // Think of them as "containers" that know how to manage screens.
@@ -55,9 +46,7 @@ type PetStackParamList = {
 const Tab = createBottomTabNavigator();
 
 // PetStack: A stack navigator specifically for pet-related screens.
-// <PetStackParamList> tells TypeScript which screens this stack contains,
-// so it can warn us if we try to navigate to a screen that doesn't exist.
-const PetStack = createNativeStackNavigator<PetStackParamList>();
+const PetStack = createNativeStackNavigator();
 
 // ============================================================
 // PetStackScreen — A mini navigator inside the "Pets" tab.
@@ -113,9 +102,9 @@ export default function App() {
           // "route" tells us which tab we're configuring.
           // "color" and "size" are provided by React Navigation
           // (color changes based on whether the tab is active or not).
-          tabBarIcon: ({ color, size }: { color: string; size: number }) => {
+          tabBarIcon: ({ color, size }) => {
             // Default icon
-            let iconName: keyof typeof Ionicons.glyphMap = "paw";
+            let iconName = "paw";
 
             // Pick the right icon based on which tab this is
             if (route.name === "Pets") iconName = "paw";
